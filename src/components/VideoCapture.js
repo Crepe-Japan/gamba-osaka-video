@@ -30,7 +30,6 @@ function VideoCapture() {
     };
 
     useEffect(() => {
-        getCameraSelection();
         recordBtnRef.current.disabled = true
         downloadBtnRef.current.disabled = true
         downloadLinkRef.current.disabled = true
@@ -38,7 +37,8 @@ function VideoCapture() {
     });
 
     const getCameraSelection = async () => {
-        const inputSelector = inputSelectorRef.current
+        let inputSelector = inputSelectorRef.current;
+        console.log(inputSelector)
         /*  let inputSection = document.getElementsByClassName('inputSelector')[0]; */
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter(device => device.kind === 'videoinput');
@@ -55,7 +55,7 @@ function VideoCapture() {
             if (deviceInfo.kind === 'videoinput') {
                 console.info('Found video input device: ', deviceInfo.label);
                 option.text = deviceInfo.label || 'input device ' +
-                    (inputSelectorRef.length + 1);
+                    (inputSelectorRef.current.length + 1);
                 inputSelector.appendChild(option);
             }
         }
@@ -112,12 +112,24 @@ function VideoCapture() {
     }
 
     const startStream = () => {
-        const updatedConstraints = {
-            ...constraints,
-            deviceId: {
-                exact: inputSelectorRef.current.value
-            }
-        };
+
+        let updatedConstraints = {}
+        // first Launch
+        if (inputSelectorRef.current.length === 0) {
+            updatedConstraints = {
+                ...constraints,
+            };
+            getCameraSelection()
+        }
+        else {
+            updatedConstraints = {
+                ...constraints,
+                deviceId: {
+                    exact: inputSelectorRef.current.value
+                }
+            };
+        }
+
 
         streamBtnRef.current.hidden = true
         recordBtnRef.current.disabled = false
@@ -188,7 +200,7 @@ function VideoCapture() {
                         <canvas ref={canvasRef} width='5' height='5'></canvas>
                         <Box className="inputSelector">
                             <Heading as='h3' size='sm'>Select video input: </Heading>
-                            <select ref={inputSelectorRef} ></select>
+                            <select id='selector' ref={inputSelectorRef} ></select>
                         </Box>
                         <HStack>
                             <Button ref={recordBtnRef} color='red'
