@@ -45,7 +45,6 @@ function App() {
         <Route exact path='/' element={< Home />}></Route>
         <Route path='/video-capture' element={< VideoCapture {...videoJsOptions} />}></Route>
       </Routes>
-
     </Router>
   );
 }

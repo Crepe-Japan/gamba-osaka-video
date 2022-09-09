@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useEffect } from 'react';
-
+import '../App.css';
 
 
 import 'video.js/dist/video-js.css';
@@ -153,8 +153,6 @@ function VideoCapture({ ...options }) {
         }
     }, [])
 
-
-
     const canvasRecorder = (e) => {
 
         const canvas = document.getElementById("c1");
@@ -190,7 +188,7 @@ function VideoCapture({ ...options }) {
     }
 
     return (
-        <Box >
+        <Box className='App' >
             <VStack spacing={3} w="full" alignItems="center">
 
                 <Box id='cameraVideo' py='20'>
