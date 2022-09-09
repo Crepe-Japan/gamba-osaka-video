@@ -18,8 +18,8 @@ import Record from 'videojs-record/dist/videojs.record.js';
 
 function VideoCapture({ ...options }) {
     let recordingTimeMS = 5000;
-
     useEffect(() => {
+
         /*    let preview = document.getElementById("preview");
            const canvas = document.getElementById("c1");; */
         var devices, deviceId;
@@ -53,9 +53,13 @@ function VideoCapture({ ...options }) {
             player.record().enumerateDevices();
             let cameraVideoBox = document.getElementById("cameraVideo");
 
+
             let streamVid = document.getElementById("streamVid")
             streamVid.srcObject = player.record().stream
 
+            streamVid.play()
+            streamVid.captureStream = streamVid.captureStream || streamVid.mozCaptureStream
+            console.log(streamVid.captureStream)
 
             cameraVideoBox.style.padding = 0
             recordButton.disabled = false
@@ -64,7 +68,21 @@ function VideoCapture({ ...options }) {
         player.on('deviceReady', function () {
             let playerVideo = document.getElementById('playerVideo')
             playerVideo.play()
+
+
             canvasStreamer.doLoad()
+
+            /*  let preview = document.getElementById('preview')
+             let out = document.getElementById('streamAudio')
+             var ctx = new AudioContext();
+             // create an source node from the <video>
+             var source = ctx.createMediaElementSource(preview);
+             // now a MediaStream destination node
+             var stream_dest = ctx.createMediaStreamDestination();
+             // connect the source to the MediaStream
+             source.connect(stream_dest);
+             // grab the real MediaStream
+             out.srcObject = stream_dest.stream; */
         });
 
         player.on('enumerateReady', function () {
@@ -138,6 +156,7 @@ function VideoCapture({ ...options }) {
         }
     })
 
+
     const canvasRecorder = (e) => {
 
         const canvas = document.getElementById("c1");
@@ -153,7 +172,10 @@ function VideoCapture({ ...options }) {
            console.log(preview) */
 
         let streamVid = document.getElementById("streamVid")
-        startRecording(streamVid.captureStream(), canvasStream, recordingTimeMS).then((recordedChunks) => {
+        console.log(streamVid)
+
+        // streamVid.captureStream() does not work in safari
+        startRecording(streamVid.srcObject, canvasStream, recordingTimeMS).then((recordedChunks) => {
             let recordedBlob = new Blob(recordedChunks, { type: "video/mp4" });
             recording.src = URL.createObjectURL(recordedBlob);
 
@@ -202,7 +224,8 @@ function VideoCapture({ ...options }) {
                 {/*         <Heading> Gamba Osaka Video</Heading> */}
                 <Box >
                     <VStack>
-                        <video id="streamVid" width='5' height='5'></video>
+                        <video id="streamVid" width='5' height='5' muted></video>
+
                         <canvas id="c1"></canvas>
                         <Box className="inputSelector">
                             <Heading as='h3' size='sm'>Select video input: </Heading>

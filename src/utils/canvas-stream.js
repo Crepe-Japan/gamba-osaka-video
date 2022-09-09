@@ -26,9 +26,9 @@ export const canvasStreamer = {
 
         this.playerVideoCalcHeight = this.playerVideo.videoHeight * this.width / this.playerVideo.videoWidth
         this.midCalcHeight = this.height / 2 - this.playerVideoCalcHeight / 2
-        console.log(self.width, self.height)
-        console.log(this.playerVideo.videoWidth, this.playerVideo.videoHeight)
-        console.log(this.playerVideoCalcHeight)
+        /*    console.log(self.width, self.height)
+           console.log(this.playerVideo.videoWidth, this.playerVideo.videoHeight)
+           console.log(this.playerVideoCalcHeight) */
         self.timerCallback();
         /*  }, false); */
     },
