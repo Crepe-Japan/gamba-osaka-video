@@ -8,7 +8,6 @@ import { Box, Button, Heading, HStack, VStack, Divider, Link } from '@chakra-ui/
 
 // register videojs-record plugin with this import
 import 'videojs-record/dist/css/videojs.record.css';
-import { async } from 'videojs-record';
 
 
 function VideoCapture() {
