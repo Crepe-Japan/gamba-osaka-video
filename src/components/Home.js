@@ -7,7 +7,7 @@ function Home() {
         <Box className='App'>
             < VStack >
                 <Box py='4'>
-                    <Image src="assets\images\renewal_title.png" alt="renewal-title" width="100%" height="auto" />
+                    <Image src="assets\images\title_slogan.png" alt="renewal-title" width="100%" height="auto" />
                     <Image src="assets\images\title_text.png" alt="title" width="100%" />
                 </Box>
                 <Box px='6'>
@@ -24,9 +24,9 @@ function Home() {
                     </VStack>
                 </Box>
                 <Box p="6">
-                    <a href="/" target="_blank" rel="noreferrer">
+                    <a href="https://www.gamba-osaka.net/club/character/" target="_blank" rel="noreferrer">
                         <Box style={{ textAlign: "center" }} >
-                            <Image src="assets\images\renewal-img.jpg" alt="Renewal" width="100%" />
+                            <Image src="assets\images\mascot_img.png" alt="Renewal" width="100%" />
                         </Box>
                     </a>
                 </Box>
