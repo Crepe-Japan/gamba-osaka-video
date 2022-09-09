@@ -43,6 +43,9 @@ function VideoCapture({ ...options }) {
             console.warn(error);
         });
 
+        player.on('audioOutputReady', () => {
+            console.log("Audio Ready")
+        })
         player.on('deviceError', () => {
             console.error('device error:', this.player.deviceErrorCode);
         });
@@ -54,12 +57,7 @@ function VideoCapture({ ...options }) {
             let cameraVideoBox = document.getElementById("cameraVideo");
 
 
-            let streamVid = document.getElementById("streamVid")
-            streamVid.pause()
-            streamVid.srcObject = player.record().stream
-            streamVid.load();
 
-            console.log(streamVid.srcObject)
 
             /*      streamVid.captureStream = streamVid.captureStream || streamVid.mozCaptureStream
                  console.log(streamVid.captureStream) */
@@ -72,7 +70,18 @@ function VideoCapture({ ...options }) {
         player.on('deviceReady', function () {
             let playerVideo = document.getElementById('playerVideo')
             playerVideo.play()
+            let streamVid = document.getElementById("streamVid")
 
+            /* streamVid.srcObject = player.record().stream */
+
+
+            console.log("Audio Track" + player.record().stream.getAudioTracks()[0])
+            const audioStreamTrack = player.record().stream.getAudioTracks()[0]
+            const audioStream = new MediaStream()
+            audioStream.addTrack(audioStreamTrack)
+            streamVid.srcObject = audioStream
+
+            console.log(streamVid.srcObject)
 
             canvasStreamer.doLoad()
         });
@@ -123,14 +132,13 @@ function VideoCapture({ ...options }) {
 
                 // change video input device
                 player.record().setVideoInput(deviceId);
-                player.record().setAudioInput(deviceId);
 
-                let streamVid = document.getElementById("streamVid")
-                streamVid.pause()
-                streamVid.srcObject = player.record().stream
-                streamVid.load();
-
-                console.log(streamVid.srcObject)
+                /*    let streamVid = document.getElementById("streamVid")
+                   streamVid.pause()
+                   streamVid.srcObject = player.record().stream
+                   streamVid.load();
+   
+                   console.log(streamVid.srcObject) */
                 console.log("Changed video input to '" + label + "' (deviceId: " +
                     deviceId + ")");
 
