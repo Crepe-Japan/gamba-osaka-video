@@ -126,21 +126,21 @@ function VideoCapture() {
         recordBtnRef.current.disabled = false
 
         // first Launch
-        if (inputSelectorRef.current.length === 0) {
-            console.log("First")
-            updatedConstraints = {
-                ...constraints,
-            };
-            /*   await getCameraSelection() */
-        }
-        else {
-            updatedConstraints = {
-                ...constraints,
-                deviceId: {
-                    exact: inputSelectorRef.current.value
-                }
-            };
-        }
+        /*  if (inputSelectorRef.current.length === 0) { */
+        console.log("First")
+        updatedConstraints = {
+            ...constraints,
+        };
+
+        /*    }
+           else {
+               updatedConstraints = {
+                   ...constraints,
+                   deviceId: {
+                       exact: inputSelectorRef.current.value
+                   }
+               };
+           } */
         handleStream(updatedConstraints)
     }
 
