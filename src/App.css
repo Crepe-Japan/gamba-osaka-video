@@ -12,7 +12,7 @@
   background-repeat: inherit;
   background-attachment: fixed;
   background-size: cover;
-  height: 140vh;
+  height: 200vh;
 }
 body {
   background-image:url('/public/assets/images/bg-image.png');
