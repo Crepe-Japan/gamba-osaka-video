@@ -2,6 +2,7 @@ import { Box, Image, VStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 function Home() {
+
     return (
         <Box className='App'>
             < VStack >
