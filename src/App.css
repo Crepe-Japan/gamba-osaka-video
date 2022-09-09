@@ -6,6 +6,14 @@
   background-size: cover;
   height: 100vh;
 }
+.CaptureView {
+  text-align: center;
+  background-image: url('/public/assets/images/bg-image.png');
+  background-repeat: inherit;
+  background-attachment: fixed;
+  background-size: cover;
+  height: 140vh;
+}
 body {
   background-image:url('/public/assets/images/bg-image.png');
   background-repeat: no-repeat;

@@ -188,7 +188,7 @@ function VideoCapture({ ...options }) {
     }
 
     return (
-        <Box className='App' >
+        <Box className='CaptureView' >
             <VStack spacing={3} w="full" alignItems="center">
 
                 <Box id='cameraVideo' py='20'>
