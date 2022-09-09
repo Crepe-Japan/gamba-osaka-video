@@ -8,6 +8,7 @@ import { Box, Button, Heading, HStack, VStack, Divider, Link } from '@chakra-ui/
 
 // register videojs-record plugin with this import
 import 'videojs-record/dist/css/videojs.record.css';
+import { async } from 'videojs-record';
 
 
 function VideoCapture() {
@@ -38,14 +39,15 @@ function VideoCapture() {
 
     const getCameraSelection = async () => {
         let inputSelector = inputSelectorRef.current;
-        console.log(inputSelector)
+
         /*  let inputSection = document.getElementsByClassName('inputSelector')[0]; */
         const devices = await navigator.mediaDevices.enumerateDevices();
+
         const videoDevices = devices.filter(device => device.kind === 'videoinput');
 
         // handle selection changes
         inputSelector.addEventListener('change', changeVideoInput);
-
+        console.log(videoDevices)
         // populate select options
         var deviceInfo, option, i;
         for (i = 0; i !== videoDevices.length; ++i) {
@@ -75,6 +77,13 @@ function VideoCapture() {
         // show input selector section
         /* inputSection.style.display = 'block'; */
     };
+
+
+    /*     navigator.mediaDevices.ondevicechange = (event) => {
+            console.log("Device Changed")
+            getCameraSelection()
+        }; */
+
 
     const canvasRecorder = (e) => {
 
@@ -111,15 +120,19 @@ function VideoCapture() {
 
     }
 
-    const startStream = () => {
+    const startStream = async () => {
 
         let updatedConstraints = {}
+        streamBtnRef.current.hidden = true
+        recordBtnRef.current.disabled = false
+
         // first Launch
         if (inputSelectorRef.current.length === 0) {
+            console.log("First")
             updatedConstraints = {
                 ...constraints,
             };
-            getCameraSelection()
+            /*   await getCameraSelection() */
         }
         else {
             updatedConstraints = {
@@ -129,11 +142,6 @@ function VideoCapture() {
                 }
             };
         }
-
-
-        streamBtnRef.current.hidden = true
-        recordBtnRef.current.disabled = false
-
         handleStream(updatedConstraints)
     }
 
@@ -151,12 +159,14 @@ function VideoCapture() {
         })
     }
 
-    const onCameraStream = () => {
+    const onCameraStream = async () => {
         playerVideoRef.current.play()
 
         canvasStreamer.doLoad(cameraViewRef.current,
             playerVideoRef.current,
             canvasRef.current)
+
+        await getCameraSelection()
     }
 
     const changeVideoInput = (event) => {
