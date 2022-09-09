@@ -1,9 +1,5 @@
-export const startRecording = async (stream, lengthInMS) => {
-    const options = {
-        audioBitsPerSecond: 128000,
-        videoBitsPerSecond: 2500000
-    }
-    let recorder = new MediaRecorder(stream, options);
+export const startRecording = (stream, lengthInMS) => {
+    let recorder = new MediaRecorder(stream);
     let data = [];
 
     recorder.ondataavailable = (event) => data.push(event.data);
@@ -23,11 +19,11 @@ export const startRecording = async (stream, lengthInMS) => {
         },
     );
 
-    await Promise.all([
+    return Promise.all([
         stopped,
         recorded
-    ]);
-    return data;
+    ])
+        .then(() => data);
 }
 
 function wait(delayInMS) {
