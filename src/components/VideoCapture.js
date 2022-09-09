@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 import React, { useEffect } from 'react';
 import '../App.css';
 
@@ -7,15 +7,14 @@ import 'video.js/dist/video-js.css';
 import videojs from 'video.js';
 
 import 'webrtc-adapter';
-import RecordRTC from 'recordrtc';
 import { startRecording } from '../utils/canvas-record'
 import { canvasStreamer } from '../utils/canvas-stream'
-import { Box, Button, Heading, HStack, VStack, Divider } from '@chakra-ui/react'
+import { Box, Button, Heading, HStack, VStack, Divider, Link } from '@chakra-ui/react'
 
 // register videojs-record plugin with this import
 import 'videojs-record/dist/css/videojs.record.css';
+// eslint-disable-next-line no-unused-vars
 import Record from 'videojs-record/dist/videojs.record.js';
-
 
 function VideoCapture({ ...options }) {
     let recordingTimeMS = 5000;
@@ -28,6 +27,7 @@ function VideoCapture({ ...options }) {
         let recordButton = document.getElementById("recordButton");
 
         recordButton.disabled = true
+
         // Anything in here is fired on component mount.
         const player = videojs('preview', options, function () {
             // print version information at startup
@@ -36,27 +36,6 @@ function VideoCapture({ ...options }) {
             videojs.log(msg);
 
             console.log("videojs-record is ready!");
-        });
-
-        // user clicked the record button and started recording
-        player.on('startRecord', () => {
-            console.log('started recording!');
-        });
-
-
-
-        // user completed recording and stream is available
-        player.on('finishRecord', () => {
-            // recordedData is a blob object containing the recorded data that
-            // can be downloaded by the user, stored on server etc.
-            /*    player.record().saveAs({ 'video': 'my-video-file-name.webm' }); */
-            console.log('finished recording: ', player.recordedData);
-        });
-
-        player.on('finishConvert', function () {
-            console.log('finished converting: ', player.convertedData);
-            // show save as dialog
-            /*   player.record().saveAs({ 'video': 'my-video-file-name.mp4' }, 'convert');  */
         });
 
         // error handling
@@ -70,16 +49,21 @@ function VideoCapture({ ...options }) {
 
         // enumerate devices once
         player.one('deviceReady', function () {
+
             player.record().enumerateDevices();
             let cameraVideoBox = document.getElementById("cameraVideo");
-            /*      cameraVideoBox.hidden = true  */
+
+            let streamVid = document.getElementById("streamVid")
+            streamVid.srcObject = player.record().stream
+
+
             cameraVideoBox.style.padding = 0
             recordButton.disabled = false
         });
+
         player.on('deviceReady', function () {
             let playerVideo = document.getElementById('playerVideo')
             playerVideo.play()
-
             canvasStreamer.doLoad()
         });
 
@@ -105,7 +89,7 @@ function VideoCapture({ ...options }) {
                 }
             }
 
-            if (inputSelector.length == 0) {
+            if (inputSelector.length === 0) {
                 // no output devices found, disable select
                 option = document.createElement('option');
                 option.text = 'No video input devices found';
@@ -145,13 +129,14 @@ function VideoCapture({ ...options }) {
         player.on('enumerateError', function () {
             console.warn('enumerate error:', player.enumerateErrorCode);
         });
+
         return () => {
             // Anything in here is fired on component unmount.
             if (player) {
                 player.dispose();
             }
         }
-    }, [])
+    })
 
     const canvasRecorder = (e) => {
 
@@ -163,7 +148,12 @@ function VideoCapture({ ...options }) {
         e.target.innerText = "Recording .... "
         e.target.disabled = true
         downloadButton.disabled = true
-        startRecording(canvasStream, recordingTimeMS).then((recordedChunks) => {
+
+        /*    let preview = document.getElementById('preview')
+           console.log(preview) */
+
+        let streamVid = document.getElementById("streamVid")
+        startRecording(streamVid.captureStream(), canvasStream, recordingTimeMS).then((recordedChunks) => {
             let recordedBlob = new Blob(recordedChunks, { type: "video/mp4" });
             recording.src = URL.createObjectURL(recordedBlob);
 
@@ -177,7 +167,7 @@ function VideoCapture({ ...options }) {
         })
             .catch((error) => {
                 if (error.name === "NotFoundError") {
-                    log("Camera or microphone not found. Can't record.");
+                    console.log("Camera or microphone not found. Can't record.");
                 } else {
                     console.log(error)
                     //log(error);
@@ -212,6 +202,7 @@ function VideoCapture({ ...options }) {
                 {/*         <Heading> Gamba Osaka Video</Heading> */}
                 <Box >
                     <VStack>
+                        <video id="streamVid" width='5' height='5'></video>
                         <canvas id="c1"></canvas>
                         <Box className="inputSelector">
                             <Heading as='h3' size='sm'>Select video input: </Heading>
@@ -220,9 +211,9 @@ function VideoCapture({ ...options }) {
                         <HStack>
                             <Button id='recordButton' color='red' onClick={(e) => canvasRecorder(e)}> Record </Button>
                             <Button disabled id='downloadButton'>
-                                <a id="downloadAnchor" className="button">
+                                <Link id="downloadAnchor" className="button">
                                     Download
-                                </a>
+                                </Link>
                             </Button>
                         </HStack>
                     </VStack>

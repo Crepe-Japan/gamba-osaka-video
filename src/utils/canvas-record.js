@@ -1,4 +1,7 @@
-export const startRecording = (stream, lengthInMS) => {
+export const startRecording = (audioStream, stream, lengthInMS) => {
+    const audioTrack = audioStream.getAudioTracks()[0]
+    console.log(audioTrack)
+    stream.addTrack(audioTrack)
     let recorder = new MediaRecorder(stream);
     let data = [];
 
