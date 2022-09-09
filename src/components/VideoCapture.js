@@ -189,7 +189,7 @@ function VideoCapture() {
                             height="5"
                             muted loop playsInline >
                             <source src="videos/sample_hevc.mov" type="video/quicktime" />
-                            <source src="videos/kurosedayo_vp9_q20_5000_003.webm" type="video/webm" />
+                            <source src="videos/kurosedayo_vp8_q0_10000_002.webm" type="video/webm" />
                         </video>
                     </Box>
                     <video width='0' height='0'
