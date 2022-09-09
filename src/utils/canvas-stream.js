@@ -1,36 +1,31 @@
 export const canvasStreamer = {
 
-    doLoad: function () {
-        this.cameraVideo = document.querySelector('.cameraView>video');
-        this.playerVideo = document.getElementById('playerVideo')
+    doLoad: function (cameraVideo, playerVideo, canvas) {
+        /*  this.cameraVideo = document.querySelector('.cameraView>video');
+         this.playerVideo = document.getElementById('playerVideo') */
 
-        /*   let playVideo = document.createElement('video');
-          playVideo.src = "example.mp4"
-          playVideo.autoplay = true;
-          playVideo.loop = true;
-          playVideo.muted = true;
-          playVideo.preload = "auto"
-          this.playerVideo = playVideo */
+        this.cameraVideo = cameraVideo
+        this.playerVideo = playerVideo
 
-        this.c1 = document.getElementById("c1");
-        this.ctx1 = this.c1.getContext("2d");
-        let self = this;
-        /*   this.video.addEventListener("play", function () { */
-        self.width = self.cameraVideo.videoWidth / 2;
-        self.height = self.cameraVideo.videoHeight / 2;
+        this.canvas = canvas;
+        this.canvasContent = this.canvas.getContext("2d");
 
-        this.c1.width = self.width
-        this.c1.height = self.height
+
+        this.width = this.cameraVideo.videoWidth / 2;
+        this.height = this.cameraVideo.videoHeight / 2;
+
+        this.canvas.width = this.width
+        this.canvas.height = this.height
 
         this.playerVideoCalcWidth = this.playerVideo.videoWidth * this.height / this.playerVideo.videoHeight
 
         this.playerVideoCalcHeight = this.playerVideo.videoHeight * this.width / this.playerVideo.videoWidth
         this.midCalcHeight = this.height / 2 - this.playerVideoCalcHeight / 2
-        console.log(self.width, self.height)
+        console.log(this.width, this.height)
         console.log(this.playerVideo.videoWidth, this.playerVideo.videoHeight)
         console.log(this.playerVideoCalcHeight)
-        self.timerCallback();
-        /*  }, false); */
+        this.timerCallback();
+
     },
 
     timerCallback: function () {
@@ -45,23 +40,8 @@ export const canvasStreamer = {
     },
 
     computeFrame: function () {
-
-
-        this.ctx1.drawImage(this.cameraVideo, 0, 0, this.width, this.height);
-
-        this.ctx1.drawImage(this.playerVideo, 0, this.midCalcHeight, this.width, this.playerVideoCalcHeight)
-        /*         let frame = this.ctx1.getImageData(0, 0, this.width, this.height);
-                let l = frame.data.length / 4;
-        
-                for (let i = 0; i < l; i++) {
-                    let r = frame.data[i * 4 + 0];
-                    let g = frame.data[i * 4 + 1];
-                    let b = frame.data[i * 4 + 2];
-                    if (g === 0 && r === 0 && b === 0)
-                        frame.data[i * 4 + 3] = 0;
-                }
-                this.ctx1.putImageData(frame, 0, 0);
-         */
+        this.canvasContent.drawImage(this.cameraVideo, 0, 0, this.width, this.height);
+        this.canvasContent.drawImage(this.playerVideo, 0, this.midCalcHeight, this.width, this.playerVideoCalcHeight)
         return;
     }
 };
