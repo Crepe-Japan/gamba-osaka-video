@@ -123,6 +123,8 @@ function VideoCapture({ ...options }) {
 
                 // change video input device
                 player.record().setVideoInput(deviceId);
+                player.record().setAudioInput(deviceId);
+
                 let streamVid = document.getElementById("streamVid")
                 streamVid.pause()
                 streamVid.srcObject = player.record().stream
@@ -213,7 +215,7 @@ function VideoCapture({ ...options }) {
                             <source src="videos/kurosedayo_vp9_q20_5000_003.webm" type="video/webm" />
                         </video>
                     </Box>
-                    <video id="preview" className="video-js vjs-default-skin cameraView" playsInline>
+                    <video id="preview" onPause={() => console.log("Pause")} className="video-js vjs-default-skin cameraView" playsInline>
                     </video>
                 </Box>
             </VStack>
