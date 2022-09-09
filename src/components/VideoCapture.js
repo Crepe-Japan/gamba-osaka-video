@@ -57,9 +57,8 @@ function VideoCapture({ ...options }) {
             let streamVid = document.getElementById("streamVid")
             streamVid.srcObject = player.record().stream
 
-            streamVid.play()
-            streamVid.captureStream = streamVid.captureStream || streamVid.mozCaptureStream
-            console.log(streamVid.captureStream)
+            /*      streamVid.captureStream = streamVid.captureStream || streamVid.mozCaptureStream
+                 console.log(streamVid.captureStream) */
 
             cameraVideoBox.style.padding = 0
             recordButton.disabled = false
@@ -71,18 +70,6 @@ function VideoCapture({ ...options }) {
 
 
             canvasStreamer.doLoad()
-
-            /*  let preview = document.getElementById('preview')
-             let out = document.getElementById('streamAudio')
-             var ctx = new AudioContext();
-             // create an source node from the <video>
-             var source = ctx.createMediaElementSource(preview);
-             // now a MediaStream destination node
-             var stream_dest = ctx.createMediaStreamDestination();
-             // connect the source to the MediaStream
-             source.connect(stream_dest);
-             // grab the real MediaStream
-             out.srcObject = stream_dest.stream; */
         });
 
         player.on('enumerateReady', function () {
@@ -131,7 +118,8 @@ function VideoCapture({ ...options }) {
 
                 // change video input device
                 player.record().setVideoInput(deviceId);
-
+                let streamVid = document.getElementById("streamVid")
+                streamVid.srcObject = player.record().stream
                 console.log("Changed video input to '" + label + "' (deviceId: " +
                     deviceId + ")");
 
@@ -172,7 +160,7 @@ function VideoCapture({ ...options }) {
            console.log(preview) */
 
         let streamVid = document.getElementById("streamVid")
-        console.log(streamVid)
+
 
         // streamVid.captureStream() does not work in safari
         startRecording(streamVid.srcObject, canvasStream, recordingTimeMS).then((recordedChunks) => {
