@@ -4,8 +4,8 @@ export const startRecording = (audioStream, stream, lengthInMS) => {
     stream.addTrack(audioTrack)
 
     const options = {
-        audioBitsPerSecond: 128000,
-        videoBitsPerSecond: 2500000,
+        /*  audioBitsPerSecond: 128000,
+         videoBitsPerSecond: 2500000, */
     }
     let recorder = new MediaRecorder(stream, options);
     let data = [];

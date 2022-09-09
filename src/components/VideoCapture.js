@@ -64,6 +64,7 @@ function VideoCapture({ ...options }) {
             recordButton.disabled = false
         });
 
+
         player.on('deviceReady', function () {
             let playerVideo = document.getElementById('playerVideo')
             playerVideo.play()
@@ -120,6 +121,8 @@ function VideoCapture({ ...options }) {
                 player.record().setVideoInput(deviceId);
                 let streamVid = document.getElementById("streamVid")
                 streamVid.srcObject = player.record().stream
+
+                console.log(streamVid.srcObject)
                 console.log("Changed video input to '" + label + "' (deviceId: " +
                     deviceId + ")");
 
