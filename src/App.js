@@ -43,7 +43,7 @@ function App() {
     <Router>
       <Routes>
         <Route exact path='/' element={< Home />}></Route>
-        <Route path='/video-capture' element={< VideoCapture {...videoJsOptions} />}></Route>
+        <Route path='/video-capture' element={< VideoCapture />}></Route>
       </Routes>
     </Router>
   );
