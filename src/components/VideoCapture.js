@@ -55,7 +55,11 @@ function VideoCapture({ ...options }) {
 
 
             let streamVid = document.getElementById("streamVid")
+            streamVid.pause()
             streamVid.srcObject = player.record().stream
+            streamVid.load();
+
+            console.log(streamVid.srcObject)
 
             /*      streamVid.captureStream = streamVid.captureStream || streamVid.mozCaptureStream
                  console.log(streamVid.captureStream) */
@@ -120,7 +124,9 @@ function VideoCapture({ ...options }) {
                 // change video input device
                 player.record().setVideoInput(deviceId);
                 let streamVid = document.getElementById("streamVid")
+                streamVid.pause()
                 streamVid.srcObject = player.record().stream
+                streamVid.load();
 
                 console.log(streamVid.srcObject)
                 console.log("Changed video input to '" + label + "' (deviceId: " +
