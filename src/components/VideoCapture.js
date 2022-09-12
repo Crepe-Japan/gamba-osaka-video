@@ -220,7 +220,7 @@ function VideoCapture({ ...options }) {
                             {/*      <source src="dancer.webm" type="video/webm" /> */}
                             {/*     <source src="sample_tolucky.mp4" type="video/mp4" /> */}
                             <source src="videos/sample_hevc.mov" type="video/quicktime" />
-                            <source src="videos/kurosedayo_vp9_q20_5000_003.webm" type="video/webm" />
+                            <source src="videos/kurosedayo_vp9_q20_5000_positionright_004_.webm" type="video/webm" />
                         </video>
                     </Box>
                     <video id="preview" onPause={() => console.log("Pause")} className="video-js vjs-default-skin cameraView" playsInline>
